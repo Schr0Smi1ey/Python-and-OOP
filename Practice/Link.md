@@ -5,3 +5,5 @@
 - https://codeforces.com/group/MWSDmqGsZm/contest/219774/problem/I
 - https://codeforces.com/group/MWSDmqGsZm/contest/219774/problem/N
 - https://codeforces.com/group/MWSDmqGsZm/contest/219432/problem/Q
+- https://codeforces.com/group/MWSDmqGsZm/contest/219432/problem/S
+- https://codeforces.com/group/MWSDmqGsZm/contest/219856/problem/V
