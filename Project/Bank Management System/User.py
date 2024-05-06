@@ -19,7 +19,7 @@ class User(Bank):
         super().getUsers()[self.accountNumber] = self
 
     def __str__(self) -> str:
-        return f'Account Number: {self.accountNumber} UserName: {self.userName} Email: {self.email} Address: {self.address}'
+        return f'Account Number: {self.accountNumber} ¦ UserName: {self.userName} ¦ Email: {self.email} ¦ Address: {self.address}¦'
     
     @property
     def getBalance(self):
@@ -44,67 +44,75 @@ class User(Bank):
     
     def deposit(self,amount):
         if(self.bankRupt):
-            print('You are Bankrupt')
+            print('You are Bankrupt.')
             return ''
         if(amount >= 0):
             self.__balance += amount
-            self.history.append(f'{self.__transaction}. Deposited {amount} tk in account')
+            Bank.setTotalBankBalance(amount)
+            self.history.append(f'{self.__transaction}. Deposited {amount} tk in account.')
             self.__transaction += 1
         else:
-            print('Invalid Amount')
+            print('Invalid Amount.')
 
     def withdraw(self,amount):
         if(self.bankRupt):
-            print('You are Bankrupt')
+            print('You are Bankrupt.')
             return
         if(amount >= 0 and amount <= self.__balance):
             self.__balance -= amount
-            self.history.append(f'{self.__transaction}. Withdrawn {amount} tk from account')
+            self.history.append(f'{self.__transaction}. Withdrawn {amount} tk from account.')
             self.__transaction += 1
-            print(f'{amount} withdrawn successfully')
+            print(f'{amount} withdrawn successfully.')
         else:
-            print('Withdrawal amount exceeded')
-    
-    def showTransactionHistory(self):
-        if(len(self.history) == 0):
-            print('No transaction history')
-            return
-        
-        for transaction in self.history:
-            print(transaction)
-
-    def takeLoan(self,amount):
-        if(self.bankRupt):
-            print('You are Bankrupt')
-            return
-        if self.__loanTaken < 2:
-            self.__loan += amount
-            self.__loanTaken += 1
-            self.__balance += amount
-            self.history.append(f'{self.__transaction}. Loan taken {amount} tk')
-            self.__transaction += 1
-            print(f'{amount} tk loan taken successfully')
-        else:
-            print('You have already taken 2 loans')
+            if amount < 0:
+                print('Invalid Amount.')
+            else:
+                print('Withdrawal amount exceeded.')
     
     def transferAmount(self,accountNumber,amount):
         if(self.bankRupt):
-            print('You are Bankrupt')
+            print('You are Bankrupt.')
             return
         if(accountNumber in super().getUsers() and accountNumber != self.accountNumber):
             if(amount >= 0 and amount <= self.__balance):
                 self.__balance -= amount
                 super().getUsers()[accountNumber].__balance += amount
-                self.history.append(f'{self.__transaction}. Transferred {amount} tk to {Bank.getUsers()[accountNumber]}')
+                self.history.append(f'{self.__transaction}. Transferred {amount} tk to {Bank.getUsers()[accountNumber]}.')
                 self.__transaction += 1
                 print(f'{amount} tk transferred to [{super().getUsers()[accountNumber]}] successfully.')
             else:
                 if amount < 0:
                     print('Invalid amount.')
                 else:
-                    print('You don\'t have enough balance')
+                    print('You don\'t have enough balance.')
         else:
             if(accountNumber == self.accountNumber):
                 print('You can\'t transfer to your own account.')
             else:
-                print('Account not found.')
+                print('Account does not exist.')
+
+
+    def takeLoan(self,amount):
+        if(self.bankRupt):
+            print('You are Bankrupt.')
+            return
+        if self.__loanTaken < 2:
+            self.__loan += amount
+            self.__loanTaken += 1
+            self.__balance += amount
+            Bank.setTotalLoanAmount(amount)
+            self.history.append(f'{self.__transaction}. Loan taken {amount} tk.')
+            self.__transaction += 1
+            print(f'{amount} tk loan taken successfully.')
+        else:
+            print('You have already taken 2 loans.')
+            
+    
+
+    def showTransactionHistory(self):
+        if(len(self.history) == 0):
+            print('No transaction history.')
+            return
+        
+        for transaction in self.history:
+            print(transaction)

@@ -6,22 +6,22 @@ from Data import *
 
 
 print('                     ###############################################################')
-print(f'                   ############### Welcome to{ask} {janata.name} ####################')
+print(f'                   ############### Welcome to {janata.name} ####################')
 print('                     ###############################################################')
 
 
 def createAccount(self):
-    print('------------------Creating Account------------------')
+    print('------------------Creating User Account------------------')
     print()
     userName = input('Enter User Name: ')
     email = input('Enter Email: ')
     password = input('Enter Password: ')
     address = input('Enter Address: ')
     accountType = input('Enter Account Type(Savings or Current): ')
-    print('Account Created Successfully')
     print()
-    print('---------------------------------------------------')
-    admin.createAccount(userName,email,password,address,accountType)
+    username = admin.createAccount(userName,email,password,address,accountType)
+    print(username)
+    print(f'Account Created Successfully.')
     
 def test(self,type):
     print()
@@ -37,9 +37,14 @@ def test(self,type):
         password = input('                 Enter Password: ')
         admin = Bank.loginAdmin(adminId,password)
         return admin
+    
 def userLogin(self,type):
     print()
-    print('Please log in to continue:')
+    print('Please log in to continue')
+    if(type == 'user'):
+        print('(AcNum:1,Pass:test): ')
+    else:
+        print('(adminID:1,pass:test): ')
     user = test(None,type)
     while user == None:
         print('---------------------------------------------------')
@@ -54,7 +59,7 @@ def userLogin(self,type):
             if user != None:
                 break
         elif choice == 'c':
-            createAccount()
+            createAccount(None)
         elif choice == 'n':
             flag = True
             break
@@ -75,13 +80,14 @@ def adminPanel(self):
         print()
     while True:
         print()
-        print('1. Create Account')
-        print('2. Delete Account')
+        print('1. Create User Account')
+        print('2. Delete User Account')
         print('3. Show Users List')
         print('4. Total Bank Balance')
         print('5. Total Loan Amount')
-        print('6. Set Bankrupt')
-        print('7. Exit')
+        print('6. Set User Bankrupt')
+        print('7. ON/OFF Loan Feature')
+        print('8. Exit')
         print()
 
         choice = int(input('Enter your choice: '))
@@ -89,9 +95,9 @@ def adminPanel(self):
         if choice == 1:
             createAccount(None)
         elif choice == 2:
-            print('------------------Delete Account------------------')
+            print('------------------Delete User Account------------------')
             print()
-            accountNumber = int(input('Enter Account Number: '))
+            accountNumber = int(input('Enter User Account Number: '))
             print()
             admin.deleteAccount(accountNumber)
         elif choice == 3:
@@ -110,6 +116,17 @@ def adminPanel(self):
             accountNumber = int(input('Enter Account Number: '))
             admin.setBankRupt(accountNumber)
         elif choice == 7:
+            print('-------------------')
+            print('To [ON] press \'y\'')
+            print('To [OFF] press \'n\'')
+            print(f'Current Loan Feature Status is: {Bank.getLoanStatus()}')
+            print('-------------------')
+            choice = input('Enter your choice: ')
+            flag = False
+            if choice == 'y':
+                flag = True
+            admin.loanFeature(flag)
+        elif choice == 8:
             print()
             break
         print('---------------------------------------------------')
@@ -143,7 +160,7 @@ def userPanel(self):
             print('------------------Deposit------------------')
             amount = int(input('Enter Amount: '))
             user.deposit(amount)
-            print(f'{amount} tk deposited successfully')
+            print(f'{amount} tk deposited successfully.')
         elif choice == 2:
             print('------------------Withdraw------------------')
             amount = int(input('Enter Amount: '))
@@ -155,30 +172,34 @@ def userPanel(self):
             user.transferAmount(accountNumber,amount)
         elif choice == 4:
             print('------------------Take Loan------------------')
+            if Bank.getLoanStatus() == False:
+                print('Bank currently not offering any Loan.Thank You!')
+                print('---------------------------------------------------')
+                continue
             amount = int(input('Enter Amount: '))
             user.takeLoan(amount)
         elif choice == 5:
             print('------------------Show Balance------------------')
-            print(f'Your Balance is: {user.getBalance} tk')
+            print(f'Your Balance is: {user.getBalance} tk.')
         elif choice == 6:
             print('------------------Show Loan------------------')
-            print(f'Your Loan is: {user.getLoan} tk') 
+            print(f'Your Loan is: {user.getLoan} tk.') 
         elif choice == 7:
             print('------------------Show Transfer Amount------------------')
-            print(f'Your Transfer Amount is: {user.getTransferAmount}')
+            print(f'Your Transfer Amount is: {user.getTransferAmount}.')
         elif choice == 8:
-            print('------------------Transaction History------------------')
+            print(f'-----------Transaction History[acNum:{user.accountNumber}]------------')
             user.showTransactionHistory()
         elif choice == 9:
             break
         else:
-            print('Invalid Choice')
+            print('Invalid Choice.')
         print('---------------------------------------------------')
         print()
 
 def main():
     while True:
-        print()
+        print('---------------------------------------------------')
         print()
         print('1. Admin Panel')
         print('2. User Panel')
@@ -193,7 +214,7 @@ def main():
         elif choice == 3:
             break
         else:
-            print('Invalid Choice')
+            print('Invalid Choice.')
 
 if __name__ == '__main__':
     main()

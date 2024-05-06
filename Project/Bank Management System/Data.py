@@ -5,6 +5,7 @@ from Admin import *
 janata = Bank('Janata Bank Limited','JanataBank@gmail.com','Dhaka')
 admin = Admin('Sarafat','KarimSarafat@gmail.com','test','Khulna')
 
+test = admin.createAccount('test','test@test.com','test','Dhaka','Saving')
 jabbar = admin.createAccount('Jabbar','jabbar@email.com','dkfa','Dhaka','Savings')
 Karim = admin.createAccount('Karim','karim@gmail.com','fhfa','Dhaka','Savings')
 Rahim = admin.createAccount('Rahim','Rahim@proton.mail','fff','Khulna','Current')

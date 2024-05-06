@@ -3,6 +3,7 @@ class Bank:
     __admins = {}
     __totalBankBalance = 0
     __totalLoanAmount = 0
+    __LoanFeature = True
     def __init__(self,name,email,address):
         self.name = name
         self.email = email
@@ -44,10 +45,26 @@ class Bank:
     @classmethod
     def getTotalBankBalance(cls):
         return cls.__totalBankBalance
-    
+
+    @classmethod
+    def setTotalBankBalance(cls, amount):
+        if amount >= 0:
+            cls.__totalBankBalance += amount
+        else:
+            print("Invalid Amount.")
+
+        
+
     @classmethod
     def getTotalLoanAmount(cls):
         return cls.__totalLoanAmount
+    
+    @classmethod
+    def setTotalLoanAmount(cls, amount):
+        if amount >= 0:
+            cls.__totalLoanAmount += amount
+        else:
+            print("Invalid Amount.")
     
     @classmethod
     def deleteUser(cls,accountNumber):
@@ -56,3 +73,22 @@ class Bank:
             print(f'Account number {accountNumber} deleted successfully')
         else:
             print('User not found')
+    
+    @classmethod
+    def setLoanFeature(cls,flag):
+        if flag == True:
+            if cls.__LoanFeature == False:
+                cls.__LoanFeature = True
+                print('Loan Feature ON Successfully.')
+            else:
+                print('Loan Feature is ON already.')
+        else:
+            if cls.__LoanFeature == True:
+                cls.__LoanFeature = False
+                print('Loan Feature OFF Successfully.')
+            else:
+                print('Loan Feature is OFF already.')
+    
+    @classmethod
+    def getLoanStatus(cls):
+        return cls.__LoanFeature
